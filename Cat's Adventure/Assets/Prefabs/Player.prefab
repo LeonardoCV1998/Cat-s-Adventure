@@ -151,7 +151,7 @@ MonoBehaviour:
     m_Bits: 55
   m_GroundCheck: {fileID: 8938499408153670766}
   m_CeilingCheck: {fileID: 8938499408682017937}
-  m_CrouchDisableCollider: {fileID: 0}
+  m_CrouchDisableCollider: {fileID: 8938499409749442285}
   _slideTimeSpeed: 0.3
   _slideSpeed: 20
   OnLandEvent:
