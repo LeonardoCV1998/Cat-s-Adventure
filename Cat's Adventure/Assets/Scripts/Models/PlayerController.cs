@@ -84,34 +84,34 @@ public class PlayerController : MonoBehaviour
 
 	public void Move(float move, bool crouch, bool jump, bool slide)
 	{
-		// If crouching, check to see if the character can stand up
-		if (!crouch)
-		{
-			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-			{
-				crouch = true;
-			}
-		}
+        // If crouching, check to see if the character can stand up
+        if (!crouch)
+        {
+            // If the character has a ceiling preventing them from standing up, keep them crouching
+            if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
+            {
+                crouch = true;
+            }
+        }
 
-		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || m_AirControl)
+        //only control the player if grounded or airControl is turned on
+        if (m_Grounded || m_AirControl)
 		{
 
 			// If crouching
 			if (crouch)
 			{
-				if (!m_wasCrouching)
-				{
-					m_wasCrouching = true;
-					OnCrouchEvent.Invoke(true);
-				}
+                if (!m_wasCrouching)
+                {
+                    m_wasCrouching = true;
+                    OnCrouchEvent.Invoke(true);
+                }
 
-				// Reduce the speed by the crouchSpeed multiplier
-				move *= m_CrouchSpeed;
+                // Reduce the speed by the crouchSpeed multiplier
+                move *= m_CrouchSpeed;
 
-				// Disable one of the colliders when crouching
-				if (m_CrouchDisableCollider != null)
+                // Disable one of the colliders when crouching
+                if (m_CrouchDisableCollider != null)
 					m_CrouchDisableCollider.enabled = false;
 			}
 			else
@@ -120,12 +120,12 @@ public class PlayerController : MonoBehaviour
 				if (m_CrouchDisableCollider != null)
 					m_CrouchDisableCollider.enabled = true;
 
-				if (m_wasCrouching)
-				{
-					m_wasCrouching = false;
-					OnCrouchEvent.Invoke(false);
-				}
-			}
+                if (m_wasCrouching)
+                {
+                    m_wasCrouching = false;
+                    OnCrouchEvent.Invoke(false);
+                }
+            }
 
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
@@ -140,9 +140,19 @@ public class PlayerController : MonoBehaviour
 			// Si slide es true
 			if (slide)
 			{
+				//Se desactiva el collider de la cabeza cuando hace el slide
+				if (m_CrouchDisableCollider != null)
+					m_CrouchDisableCollider.enabled = false;
+
 				// Se manda a llamar la funcion del Slide
 				Slide();
 
+			}
+            else
+            {
+				//Se activa el collider de la cabeza cuando deja de hacer el slide
+				if (m_CrouchDisableCollider != null)
+					m_CrouchDisableCollider.enabled = true;
 			}
 
 			// If the input is moving the player right and the player is facing left...
