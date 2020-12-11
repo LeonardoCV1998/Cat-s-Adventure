@@ -5,6 +5,7 @@ public static class StringsType
 {
     #region ERRORS
     public const string PlayerControllerIsNull = "El PlayerController es NULL";
+    public const string AnimatorIsNull = "El Animator es NULL";
     #endregion
 
     #region NAMES
