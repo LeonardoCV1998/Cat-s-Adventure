@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _runSpeed = 40f;
 
     /// <summary>
+    /// Vida del jugador, seran 3 vidas en total.
+    /// </summary>
+    [SerializeField] private int _health = 3;
+
+    /// <summary>
     /// Control de si salto o no
     /// </summary>
     private bool _jump = false;
@@ -33,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     /// Control del animator del player
     /// </summary>
     private Animator _animator;
-
 
     void Start()
     {
@@ -210,5 +214,23 @@ public class PlayerMovement : MonoBehaviour
     {
         // Se manda false al parametro de IsJumping para desactivar la animacion
         _animator.SetBool(StringsType.IsJumpingParameter, false);
+    }
+
+    /// <summary>
+    /// Cuando el player colisione con algun enemigo este sera el metodo
+    /// que se llamara.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ReciveDamage(int damage)
+    {
+        // Se resta la vida dependiendo del daño a causar
+        _health -= damage;
+
+        // Si la vida es menor a 1 osea 0
+        if(_health < 1)
+        {
+            // Se destruye el objeto de Player
+            Destroy(this.gameObject);
+        }
     }
 }
