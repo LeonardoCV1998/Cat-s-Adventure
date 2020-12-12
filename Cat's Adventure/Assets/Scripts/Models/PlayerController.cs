@@ -97,7 +97,6 @@ public class PlayerController : MonoBehaviour
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
 		{
-
 			// If crouching
 			if (crouch)
 			{
@@ -138,7 +137,7 @@ public class PlayerController : MonoBehaviour
 			}
 
 			// Si slide es true
-			if (slide)
+			if (m_Grounded && slide)
 			{
 				//Se desactiva el collider de la cabeza cuando hace el slide
 				if (m_CrouchDisableCollider != null)
@@ -150,7 +149,7 @@ public class PlayerController : MonoBehaviour
 			}
             else
             {
-				//Se activa el collider de la cabeza cuando deja de hacer el slide
+				// Se activa el collider de la cabeza cuando deja de hacer el slide
 				if (m_CrouchDisableCollider != null)
 					m_CrouchDisableCollider.enabled = true;
 			}
@@ -173,7 +172,9 @@ public class PlayerController : MonoBehaviour
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+
+			//Se cambio por el AddForce ya que se bugeaba al momento de saltar
+			m_Rigidbody2D.velocity = new Vector2(0f, m_JumpForce);
 		}
 	}
 
