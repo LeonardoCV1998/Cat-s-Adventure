@@ -38,10 +38,9 @@ public class PlayerMovement : MonoBehaviour
         // Se obtienen los componente de Animator
         _animator = GetComponent<Animator>();
 
-        #region CHECK_COMPONENTS_EXITS
-
         // Se revisa si los componentes a los cuales se quieren obtener existan, 
         // si no existen se debugeara un error
+        #region CHECK_COMPONENTS_EXITS
 
         if (_playerController == null)
         {
@@ -62,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
         // para controlar al player
         Movement();
 
+        // Chequeo de presion de teclas
         #region CHECK_INPUTS
 
-        // Chequeo de presion de teclas
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
@@ -112,7 +111,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Jump()
     {
+        // Estara saltando
         _jump = true;
+
+        // Se manda true al parametro de IsJumping para activar la animacion
         _animator.SetBool("IsJumping", true);
     }
 
@@ -147,13 +149,38 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("IsSlide", false);
     }
 
+    /// <summary>
+    /// Metodo que maneja el evento de atacar
+    /// </summary>
     private void Attack()
     {
-        Debug.Log("Attacking");
+        // Se le asigna un true al parametro de IsAttacking del animator
+        _animator.SetBool("IsAttacking", true);
+
+        // Iniciamos la coroutina para desactivar la animacion
+        StartCoroutine(StopAttackAnim());
     }
 
+    /// <summary>
+    /// Coroutina para desactivar la animacion
+    /// </summary>
+    /// <returns> Tiempo de espera para desactivar la animacion </returns>
+    private IEnumerator StopAttackAnim()
+    {
+        // Tiempo de espera para quitar la animacion
+        yield return new WaitForSeconds(0.3f);
+
+        // Se le asigna un false al parametro de IsAttacking del animator
+        _animator.SetBool("IsAttacking", false);
+    }
+
+    /// <summary>
+    /// Al aterrizar se utiliza este metodo para mandarlo a llamar
+    /// en el evento del PlayerController al momento de aterrizar
+    /// </summary>
     public void OnLanding()
     {
+        // Se manda false al parametro de IsJumping para desactivar la animacion
         _animator.SetBool("IsJumping", false);
     }
 }
