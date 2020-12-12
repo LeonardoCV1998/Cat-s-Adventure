@@ -10,5 +10,9 @@ public static class StringsType
 
     #region NAMES
     public const string HorizontalInput = "Horizontal";
+    public const string SpeedParameter = "Speed";
+    public const string IsJumpingParameter = "IsJumping";
+    public const string IsSlideParameter = "IsSlide";
+    public const string IsAttackingParameter = "IsAttacking";
     #endregion
 }
