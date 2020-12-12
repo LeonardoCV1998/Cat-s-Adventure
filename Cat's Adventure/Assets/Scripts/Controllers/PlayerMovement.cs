@@ -18,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     /// Control si hizo el slide o no
     /// </summary>
     private bool _slide = false;
+
+    /// <summary>
+    /// Control si ataco o no
+    /// </summary>
+    private bool _attack = false;
     
     /// <summary>
     /// Controles del Player.
@@ -55,30 +60,56 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+
+    private void Update()
+    {
+        // Chequeo de los inputs del jugador
+        #region CHECK_INPUTS
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Estara saltando
+            _jump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            // Se ajusta _slide a true ya que presiono la tecla
+            _slide = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            // Se ajusta _attack a true ya que presiono la tecla
+            _attack = true;
+        }
+
+        #endregion
+    }
+
     void FixedUpdate()
     {
         // Se manda a llamar en todo momento el metodo de movement 
         // para controlar al player
         Movement();
 
-        // Chequeo de presion de teclas
-        #region CHECK_INPUTS
+        // Chequeo de estado de las variables
+        #region CHECK_STATES
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_jump)
         {
+            // Se hace falso ya que si no estaria saltando infinitamente
+            _jump = false;
+
             Jump();
         }
-        else
-        {
-            _jump = false;
-        }
 
-        if(Input.GetKeyDown(KeyCode.C))
+        if (_slide)
         {
             Slide();
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+        if (_attack)
         {
             Attack();
         }
@@ -99,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Se edita el parametro del animator Speed para controlar la animacion
         // Se manda el Horizontal Input en Abs para obtener el valor siempre en positivo
-        _animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
+        _animator.SetFloat(StringsType.SpeedParameter, Mathf.Abs(horizontalInput));
 
         // Se manda a llamar el metodo de Move y se le pasa la direccion y velocidad
         _playerController.Move(horizontalInput * Time.fixedDeltaTime, false, _jump, _slide);
@@ -111,11 +142,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        // Estara saltando
-        _jump = true;
-
         // Se manda true al parametro de IsJumping para activar la animacion
-        _animator.SetBool("IsJumping", true);
+        _animator.SetBool(StringsType.IsJumpingParameter, true);
     }
 
     /// <summary>
@@ -123,11 +151,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Slide()
     {
-        // Se ajusta _slide a true ya que presiono la tecla
-        _slide = true;
-
         // Se envia un true al parametro de IsSlide para la animacion
-        _animator.SetBool("IsSlide", true);
+        _animator.SetBool(StringsType.IsSlideParameter, true);
 
         // Se inicia la coroutina para parar el slide
         StartCoroutine(StopSlider());
@@ -146,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         _slide = false;
 
         // Se envia un false al parametro de IsSlide para la animacion
-        _animator.SetBool("IsSlide", false);
+        _animator.SetBool(StringsType.IsSlideParameter, false);
     }
 
     /// <summary>
@@ -155,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
     private void Attack()
     {
         // Se le asigna un true al parametro de IsAttacking del animator
-        _animator.SetBool("IsAttacking", true);
+        _animator.SetBool(StringsType.IsAttackingParameter, true);
 
         // Iniciamos la coroutina para desactivar la animacion
         StartCoroutine(StopAttackAnim());
@@ -170,8 +195,11 @@ public class PlayerMovement : MonoBehaviour
         // Tiempo de espera para quitar la animacion
         yield return new WaitForSeconds(0.3f);
 
+        // Se hace falso ya que acabe el tiempo de la animacion;
+        _attack = false;
+
         // Se le asigna un false al parametro de IsAttacking del animator
-        _animator.SetBool("IsAttacking", false);
+        _animator.SetBool(StringsType.IsAttackingParameter, false);
     }
 
     /// <summary>
@@ -181,6 +209,6 @@ public class PlayerMovement : MonoBehaviour
     public void OnLanding()
     {
         // Se manda false al parametro de IsJumping para desactivar la animacion
-        _animator.SetBool("IsJumping", false);
+        _animator.SetBool(StringsType.IsJumpingParameter, false);
     }
 }
