@@ -15,6 +15,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int _health = 3;
 
     /// <summary>
+    /// Punto de ataque en el que detectara a los enemigos
+    /// </summary>
+    [SerializeField] private Transform _attackPoint;
+
+    /// <summary>
+    /// Rango de ataque en el que le hara daño a los enemigos
+    /// </summary>
+    [SerializeField] private float _attackRange = 0.5f;
+
+    /// <summary>
+    /// Layers para detectar a los enemigos
+    /// </summary>
+    [SerializeField] private LayerMask _enemyLayers;
+
+    /// <summary>
     /// Control de si salto o no
     /// </summary>
     private bool _jump = false;
@@ -39,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private Animator _animator;
 
-    void Start()
+    private void Start()
     {
         // Se obtienen los componente de PlayerController
         _playerController = GetComponent<PlayerController>();
@@ -91,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Se manda a llamar en todo momento el metodo de movement 
         // para controlar al player
@@ -114,6 +129,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
         #endregion
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Si no existe el Transform de attackPoint
+        if(_attackPoint == null)
+        {
+            // Retornara para no hacer nada mas
+            return;
+        }
+
+        // Dibuja la esfera en la posicion de attackpoint y el radio de attackrange
+        Gizmos.DrawWireSphere(_attackPoint.position, _attackRange);
     }
 
     /// <summary>
@@ -180,6 +208,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // Se le asigna un true al parametro de IsAttacking del animator
         _animator.SetTrigger(StringsType.IsAttackingParameter);
+
+        // Se guarda lo obtenido en el OverlapCircle
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange, _enemyLayers);
+
+        // Se recorren todos los enemigos que toco el overlap
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("Atacaste a: " + enemy.name);
+        }
     }
 
     /// <summary>
