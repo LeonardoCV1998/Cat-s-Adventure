@@ -38,11 +38,6 @@ public class PlayerMovement : MonoBehaviour
     /// Control si hizo el slide o no
     /// </summary>
     private bool _slide = false;
-
-    /// <summary>
-    /// Control si ataco o no
-    /// </summary>
-    private bool _attack = false;
     
     /// <summary>
     /// Controles del Player.
@@ -215,7 +210,7 @@ public class PlayerMovement : MonoBehaviour
         // Se recorren todos los enemigos que toco el overlap
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("Atacaste a: " + enemy.name);
+            enemy.GetComponent<PerroEnemy>().ReciveDamage(1);
         }
     }
 
