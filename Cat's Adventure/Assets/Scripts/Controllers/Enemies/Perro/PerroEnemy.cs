@@ -92,6 +92,16 @@ public class PerroEnemy : EnemyParent
         transform.position = Vector3.MoveTowards(transform.position, _nextPos, perroScriptableObject.speed * Time.deltaTime);
     }
 
+    public void ReciveDamage(int damage)
+    {
+        life -= damage;
+
+        if(life < 1)
+        {
+            Destroy(this.transform.parent.gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Si entra el player
