@@ -17,5 +17,6 @@ public static class StringsType
     public const string IsJumpingParameter = "IsJumping";
     public const string IsSlideParameter = "IsSlide";
     public const string IsAttackingParameter = "IsAttacking";
+    public const string IsHurtParameter = "IsHurt";
     #endregion
 }

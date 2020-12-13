@@ -225,11 +225,28 @@ public class PlayerMovement : MonoBehaviour
         // Se resta la vida dependiendo del daño a causar
         _health -= damage;
 
+        // Se manda a llamar la animacion de Hurt
+        _animator.SetBool(StringsType.IsHurtParameter, true);
+
+        StartCoroutine(StopHurtAnim());
         // Si la vida es menor a 1 osea 0
         if(_health < 1)
         {
             // Se destruye el objeto de Player
             Destroy(this.gameObject);
         }
+    }
+
+    /// <summary>
+    /// Coroutina para parar la animacion de Hurt
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StopHurtAnim()
+    {
+        // Se espera un tiempo para parar la animacion
+        yield return new WaitForSeconds(0.3f);
+
+        // Detiene la animacion de Hurt
+        _animator.SetBool(StringsType.IsHurtParameter, false);
     }
 }
