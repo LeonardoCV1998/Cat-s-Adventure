@@ -12,7 +12,7 @@ public abstract class EnemyParent : MonoBehaviour
     /// <summary>
     /// Daño que causara al Player
     /// </summary>
-    [SerializeField] protected float damage;
+    [SerializeField] protected int damage;
 
     /// <summary>
     /// Metodo abstracto que utilizaran todos los enemigos

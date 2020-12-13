@@ -6,6 +6,9 @@ public static class StringsType
     #region ERRORS
     public const string PlayerControllerIsNull = "El PlayerController es NULL";
     public const string AnimatorIsNull = "El Animator es NULL";
+    public const string PlayerMovementIsNull = "El PlayerMovement es NULL";
+    public const string SprayEnemyIsNull = "El SprayEnemy es NULL";
+    public const string Collider2DIsNull = "El Collider2D es NULL";
     #endregion
 
     #region NAMES

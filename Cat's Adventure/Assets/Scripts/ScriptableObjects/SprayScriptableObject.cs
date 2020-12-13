@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Scriptable Object del spray para guardar data
+/// </summary>
 [CreateAssetMenu(fileName = "Spray Enemy", menuName = "Scriptable Objects/ New Spray Enemy")]
 public class SprayScriptableObject : ScriptableObject
 {

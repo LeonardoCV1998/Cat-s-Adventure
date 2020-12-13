@@ -100,4 +100,13 @@ public class SprayEnemy : EnemyParent
                 break;
         }
     }
+
+    /// <summary>
+    /// Metodo que retorna el valor de damage para ser usado
+    /// </summary>
+    /// <returns></returns>
+    public int GetDamage()
+    {
+        return damage;
+    }
 }
