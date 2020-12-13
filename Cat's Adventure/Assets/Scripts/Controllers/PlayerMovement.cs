@@ -84,7 +84,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             // Se ajusta _attack a true ya que presiono la tecla
-            _attack = true;
+            //_attack = true;
+            Attack();
         }
 
         #endregion
@@ -110,11 +111,6 @@ public class PlayerMovement : MonoBehaviour
         if (_slide)
         {
             Slide();
-        }
-
-        if (_attack)
-        {
-            Attack();
         }
 
         #endregion
@@ -183,26 +179,7 @@ public class PlayerMovement : MonoBehaviour
     private void Attack()
     {
         // Se le asigna un true al parametro de IsAttacking del animator
-        _animator.SetBool(StringsType.IsAttackingParameter, true);
-
-        // Iniciamos la coroutina para desactivar la animacion
-        StartCoroutine(StopAttackAnim());
-    }
-
-    /// <summary>
-    /// Coroutina para desactivar la animacion
-    /// </summary>
-    /// <returns> Tiempo de espera para desactivar la animacion </returns>
-    private IEnumerator StopAttackAnim()
-    {
-        // Tiempo de espera para quitar la animacion
-        yield return new WaitForSeconds(0.3f);
-
-        // Se hace falso ya que acabe el tiempo de la animacion;
-        _attack = false;
-
-        // Se le asigna un false al parametro de IsAttacking del animator
-        _animator.SetBool(StringsType.IsAttackingParameter, false);
+        _animator.SetTrigger(StringsType.IsAttackingParameter);
     }
 
     /// <summary>
@@ -226,27 +203,13 @@ public class PlayerMovement : MonoBehaviour
         _health -= damage;
 
         // Se manda a llamar la animacion de Hurt
-        _animator.SetBool(StringsType.IsHurtParameter, true);
+        _animator.SetTrigger(StringsType.IsHurtParameter);
 
-        StartCoroutine(StopHurtAnim());
         // Si la vida es menor a 1 osea 0
         if(_health < 1)
         {
             // Se destruye el objeto de Player
             Destroy(this.gameObject);
         }
-    }
-
-    /// <summary>
-    /// Coroutina para parar la animacion de Hurt
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator StopHurtAnim()
-    {
-        // Se espera un tiempo para parar la animacion
-        yield return new WaitForSeconds(0.3f);
-
-        // Detiene la animacion de Hurt
-        _animator.SetBool(StringsType.IsHurtParameter, false);
     }
 }
