@@ -10,6 +10,8 @@ public static class StringsType
     public const string SprayEnemyIsNull = "El SprayEnemy es NULL";
     public const string Collider2DIsNull = "El Collider2D es NULL";
     public const string SpriteRendererIsNull = "El SpriteRenderer es NULL";
+    public const string PlatfformEfecto2DIsNull = "El PlatformEfector2D es NULL";
+    public const string PlayerTransformIsNull = "El PlayerTransform es NULL";
     #endregion
 
     #region NAMES

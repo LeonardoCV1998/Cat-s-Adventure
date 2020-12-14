@@ -19,16 +19,6 @@ public class SprayScriptableObject : ScriptableObject
     public float timeSpraying = 2f;
 
     /// <summary>
-    /// Tiempo actual para hacer el spray
-    /// </summary>
-    public float timeToSprayCurrent;
-
-    /// <summary>
-    /// Tiempo actual que toma sprayeando
-    /// </summary>
-    public float timeSprayingCurrent;
-
-    /// <summary>
     /// Variable para obtener los states de Spray
     /// </summary>
     public SprayStates sprayStates;
