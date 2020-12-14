@@ -54,8 +54,8 @@ public class BolaEstambre : MonoBehaviour
                 // Incrementa la vida 
                 playerMovement.IncreaseLife();
 
-                // Destruye el padre del objeto
-                Destroy(this.transform.parent.gameObject);
+                // Desactiva el padre del objeto
+                gameObject.SetActive(false);
             }
         }
     }
