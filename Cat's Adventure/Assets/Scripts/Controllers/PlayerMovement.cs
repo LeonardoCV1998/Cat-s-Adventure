@@ -134,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         #endregion
+
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -5.0f, Mathf.Infinity), transform.position.y);
     }
 
     private void FixedUpdate()
@@ -322,5 +324,13 @@ public class PlayerMovement : MonoBehaviour
     {
         // Se incrementa uno de vida
         _health++;
+    }
+
+    /// <summary>
+    /// Metodo para obtener la velocidad de correr
+    /// </summary>
+    public void GetRunSpeed(float value)
+    {
+        _runSpeed = value;
     }
 }

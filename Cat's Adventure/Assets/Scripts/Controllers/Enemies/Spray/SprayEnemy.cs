@@ -10,21 +10,36 @@ public class SprayEnemy : EnemyParent
     public SprayScriptableObject sprayScriptableObject;
 
     /// <summary>
+    /// Control de estados del Spray
+    /// </summary>
+    private SprayStates _sprayStates;
+
+    /// <summary>
     /// Objeto que hara daño al Player
     /// </summary>
     [SerializeField] private GameObject _water;
 
+    /// <summary>
+    /// Tiempo actual para hacer el spray
+    /// </summary>
+    private float _timeToSprayCurrent;
+
+    /// <summary>
+    /// Tiempo actual spayeando
+    /// </summary>
+    private float _timeSprayingCurrent;
+
     private void Start()
     {
         // Se dan valor a las variables current
-        sprayScriptableObject.timeToSprayCurrent = sprayScriptableObject.timeToSpray;
-        sprayScriptableObject.timeSprayingCurrent = sprayScriptableObject.timeSpraying;
+        _timeToSprayCurrent = sprayScriptableObject.timeToSpray;
+        _timeSprayingCurrent = sprayScriptableObject.timeSpraying;
 
         // Se desactiva el agua
         _water.SetActive(false);
 
         // Se asgina el estado de NotSpraying, ya que es el inicial
-        sprayScriptableObject.sprayStates = SprayStates.NotSpraying;
+        _sprayStates = SprayStates.NotSpraying;
     }
 
     private void Update()
@@ -39,13 +54,13 @@ public class SprayEnemy : EnemyParent
     private void NotSprayingAction()
     {
         // Se resta el tiempo para hacer el spray
-        sprayScriptableObject.timeToSprayCurrent -= Time.deltaTime;
+        _timeToSprayCurrent -= Time.deltaTime;
 
         // Cuando termina el tiempo
-        if (sprayScriptableObject.timeToSprayCurrent <= 0)
+        if (_timeToSprayCurrent <= 0)
         {
             // Cambia de estado a Sprayeando
-            sprayScriptableObject.sprayStates = SprayStates.Spraying;
+            _sprayStates = SprayStates.Spraying;
         }
     }
 
@@ -60,20 +75,20 @@ public class SprayEnemy : EnemyParent
         _water.SetActive(true);
 
         // Se resta el tiempo actual que esta sprayeando 
-        sprayScriptableObject.timeSprayingCurrent -= Time.deltaTime;
+        _timeSprayingCurrent -= Time.deltaTime;
 
         // Cuando llegue a cero 
-        if (sprayScriptableObject.timeSprayingCurrent <= 0)
+        if (_timeSprayingCurrent <= 0)
         {
             // Se desactiva el agua para que ya no haga daño
             _water.SetActive(false);
 
             // Se reasignan los tiempos normales
-            sprayScriptableObject.timeToSprayCurrent = sprayScriptableObject.timeToSpray;
-            sprayScriptableObject.timeSprayingCurrent = sprayScriptableObject.timeSpraying;
+            _timeToSprayCurrent = sprayScriptableObject.timeToSpray;
+            _timeSprayingCurrent = sprayScriptableObject.timeSpraying;
 
             // Se regresa al estado normal de no sprayear
-            sprayScriptableObject.sprayStates = SprayStates.NotSpraying;
+            _sprayStates = SprayStates.NotSpraying;
         }
     }
 
@@ -83,7 +98,7 @@ public class SprayEnemy : EnemyParent
     protected override void Behaviour()
     {
         // Se realiza el switch para verificar el estado de Spray
-        switch (sprayScriptableObject.sprayStates)
+        switch (_sprayStates)
         {
             case SprayStates.NotSpraying:
                 {
