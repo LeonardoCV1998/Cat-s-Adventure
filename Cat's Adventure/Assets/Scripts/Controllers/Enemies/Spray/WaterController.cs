@@ -41,7 +41,7 @@ public class WaterController : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         // Si colisiona con el Player
-        if(collision.tag.Equals("Player"))
+        if(collision.tag.Equals(StringsType.PlayerTag))
         {
             // Se obtiene el componente de PlayerMovement del objeto que colisiono
             PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();

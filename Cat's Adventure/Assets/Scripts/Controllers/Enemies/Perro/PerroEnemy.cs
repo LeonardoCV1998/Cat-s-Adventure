@@ -92,12 +92,19 @@ public class PerroEnemy : EnemyParent
         transform.position = Vector3.MoveTowards(transform.position, _nextPos, perroScriptableObject.speed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Cuando se le hace daño este metodo se llama
+    /// </summary>
+    /// <param name="damage"></param>
     public void ReciveDamage(int damage)
     {
+        // La vida se reducira al daño que le mande
         life -= damage;
 
+        // Si la vida es menor a 1
         if(life < 1)
         {
+            // Se destruye
             Destroy(this.transform.parent.gameObject);
         }
     }
@@ -105,7 +112,7 @@ public class PerroEnemy : EnemyParent
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Si entra el player
-        if(collision.tag.Equals("Player"))
+        if(collision.tag.Equals(StringsType.PlayerTag))
         {
             // Se obtiene componente de PlayerMovement
             PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();

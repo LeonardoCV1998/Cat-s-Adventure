@@ -9,6 +9,7 @@ public static class StringsType
     public const string PlayerMovementIsNull = "El PlayerMovement es NULL";
     public const string SprayEnemyIsNull = "El SprayEnemy es NULL";
     public const string Collider2DIsNull = "El Collider2D es NULL";
+    public const string SpriteRendererIsNull = "El SpriteRenderer es NULL";
     #endregion
 
     #region NAMES
@@ -18,5 +19,6 @@ public static class StringsType
     public const string IsSlideParameter = "IsSlide";
     public const string IsAttackingParameter = "IsAttacking";
     public const string IsHurtParameter = "IsHurt";
+    public const string PlayerTag = "Player";
     #endregion
 }
