@@ -12,6 +12,7 @@ public static class StringsType
     public const string SpriteRendererIsNull = "El SpriteRenderer es NULL";
     public const string PlatfformEfecto2DIsNull = "El PlatformEfector2D es NULL";
     public const string PlayerTransformIsNull = "El PlayerTransform es NULL";
+    public const string GameControllerIsNull = "El GameController es NULL";
     #endregion
 
     #region NAMES

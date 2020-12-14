@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -74,8 +75,15 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private SpriteRenderer _spriteRenderer;
 
+    /// <summary>
+    /// Componente de GameController
+    /// </summary>
+    private GameController _gameController;
     private void Start()
     {
+        // Se busca y se obtiene el GameController
+        _gameController = GameObject.Find("GameController").GetComponent<GameController>();
+
         // Se obtienen los componente de PlayerController
         _playerController = GetComponent<PlayerController>();
 
@@ -101,6 +109,11 @@ public class PlayerMovement : MonoBehaviour
         if(_spriteRenderer == null)
         {
             Debug.LogError(StringsType.SpriteRendererIsNull);
+        }
+
+        if(_gameController == null)
+        {
+            Debug.LogError(StringsType.GameControllerIsNull);
         }
 
         #endregion
@@ -136,16 +149,6 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -5.0f, Mathf.Infinity), transform.position.y);
-
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            SaveParty();
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            LoadParty();
-        }
 
     }
 
@@ -291,8 +294,7 @@ public class PlayerMovement : MonoBehaviour
             // Si la vida es menor a 1 osea 0
             if(_health < 1)
             {
-                // Se destruye el objeto de Player
-                Destroy(this.gameObject);
+                _gameController.LoadParty();
             }
         }
     }
@@ -345,17 +347,23 @@ public class PlayerMovement : MonoBehaviour
         _runSpeed = value;
     }
 
-    private void SaveParty()
+    public int GetHealth()
     {
-        InfoParty.InfoPlayer.health = _health;
-        InfoParty.InfoPlayer.position = transform.position;
-        //InfoParty.InfoPlayer.score = _score;
+        return _health;
     }
 
-    private void LoadParty()
+    public Vector2 GetPosition()
     {
-        _health = InfoParty.InfoPlayer.health;
-        transform.position = InfoParty.InfoPlayer.position;
-        //_score = InfoParty.InfoPlayer.score
+        return transform.position;
+    }
+
+    public void SetHealth(int health)
+    {
+        _health = health;
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+        transform.position = position;
     }
 }

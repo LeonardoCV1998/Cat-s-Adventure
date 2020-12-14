@@ -8,6 +8,11 @@ using UnityEngine;
 public static class InfoParty
 {
     /// <summary>
+    /// Control de si hay partida guardada o no
+    /// </summary>
+    public static bool thereSaveParty = false;
+
+    /// <summary>
     /// Clase para la informacion del Player
     /// </summary>
     public static class InfoPlayer
@@ -28,4 +33,20 @@ public static class InfoParty
         public static int score;
 
     }
+
+    /// <summary>
+    /// Clase para la informacion de los recolectables
+    /// </summary>
+    public class TypeInfoRecolectables
+    {
+        /// <summary>
+        /// Variable que verifica si es activo o no
+        /// </summary>
+        public bool isActive;
+    }
+
+    /// <summary>
+    /// Lista que guarda la info de los recolectables
+    /// </summary>
+    public static List<TypeInfoRecolectables> infoRecolectables = new List<TypeInfoRecolectables>();
 }

@@ -54,8 +54,8 @@ public class Sobresillo : MonoBehaviour
                 // Manda a llamar el metodo de Player de Power Up
                 playerMovement.PowerUp();
 
-                // Y despues se destruye
-                Destroy(this.transform.parent.gameObject);
+                // Y despues se desactiva
+                gameObject.SetActive(false);
             }
         }
     }
