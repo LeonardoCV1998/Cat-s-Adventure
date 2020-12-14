@@ -30,6 +30,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayers;
 
     /// <summary>
+    /// Tiempo que durara el efecto del powerUp
+    /// </summary>
+    [SerializeField] private float _timePowerUp = 5;
+
+    /// <summary>
+    /// Color inicial del jugador cuando tome el power up
+    /// </summary>
+    [SerializeField] private Color _initialColor;
+
+    /// <summary>
+    /// Color final cuando termine el tiempo del power up
+    /// </summary>
+    [SerializeField] private Color _finalColor;
+
+    /// <summary>
+    /// Control de si puede recibir daño o no el Player
+    /// </summary>
+    private bool _damageable = false;
+
+    /// <summary>
     /// Control de si salto o no
     /// </summary>
     private bool _jump = false;
@@ -49,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private Animator _animator;
 
+    /// <summary>
+    /// Componente de sprite renderer
+    /// </summary>
+    private SpriteRenderer _spriteRenderer;
+
     private void Start()
     {
         // Se obtienen los componente de PlayerController
@@ -56,6 +81,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Se obtienen los componente de Animator
         _animator = GetComponent<Animator>();
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Se revisa si los componentes a los cuales se quieren obtener existan, 
         // si no existen se debugeara un error
@@ -71,7 +98,15 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError(StringsType.AnimatorIsNull);
         }
 
+        if(_spriteRenderer == null)
+        {
+            Debug.LogError(StringsType.SpriteRendererIsNull);
+        }
+
         #endregion
+
+        // Se hace true ya que al iniciar podra recibir daño
+        _damageable = true;
     }
 
     private void Update()
@@ -231,17 +266,61 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="damage"></param>
     public void ReciveDamage(int damage)
     {
-        // Se resta la vida dependiendo del daño a causar
-        _health -= damage;
-
-        // Se manda a llamar la animacion de Hurt
-        _animator.SetTrigger(StringsType.IsHurtParameter);
-
-        // Si la vida es menor a 1 osea 0
-        if(_health < 1)
+        // Si puede recibir daño el jugador 
+        if(_damageable)
         {
-            // Se destruye el objeto de Player
-            Destroy(this.gameObject);
+            // Se resta la vida dependiendo del daño a causar
+            _health -= damage;
+
+            // Se manda a llamar la animacion de Hurt
+            _animator.SetTrigger(StringsType.IsHurtParameter);
+
+            // Si la vida es menor a 1 osea 0
+            if(_health < 1)
+            {
+                // Se destruye el objeto de Player
+                Destroy(this.gameObject);
+            }
         }
+    }
+
+    /// <summary>
+    /// Metodo que se encargara de realizar la accion cuando colisione con el Sobresillo
+    /// </summary>
+    public void PowerUp()
+    {
+        // No puede recibir daño 
+        _damageable = false;
+
+        // Color inicial al momento de tomar el powerup
+        _spriteRenderer.color = _initialColor;
+
+        // Empieza la coroutina de tiempo para el power up
+        StartCoroutine(TimePowerUp());
+    }
+
+    /// <summary>
+    /// Coroutina para controlar el tiempo del power up
+    /// </summary>
+    /// <returns>Tiempo que dura el power up</returns>
+    private IEnumerator TimePowerUp()
+    {
+        // Tiempo de espera
+        yield return new WaitForSeconds(_timePowerUp);
+
+        // Cuando termine el tiempo podra recibir daño de nuevo
+        _damageable = true;
+
+        // Color final al terminar el tiempo
+        _spriteRenderer.color = _finalColor;
+    }
+
+    /// <summary>
+    /// Metodo que incrementa una vida
+    /// </summary>
+    public void IncreaseLife()
+    {
+        // Se incrementa uno de vida
+        _health++;
     }
 }
