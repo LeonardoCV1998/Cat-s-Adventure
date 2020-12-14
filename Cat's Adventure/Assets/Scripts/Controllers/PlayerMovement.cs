@@ -136,6 +136,17 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -5.0f, Mathf.Infinity), transform.position.y);
+
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            SaveParty();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            LoadParty();
+        }
+
     }
 
     private void FixedUpdate()
@@ -332,5 +343,19 @@ public class PlayerMovement : MonoBehaviour
     public void GetRunSpeed(float value)
     {
         _runSpeed = value;
+    }
+
+    private void SaveParty()
+    {
+        InfoParty.InfoPlayer.health = _health;
+        InfoParty.InfoPlayer.position = transform.position;
+        //InfoParty.InfoPlayer.score = _score;
+    }
+
+    private void LoadParty()
+    {
+        _health = InfoParty.InfoPlayer.health;
+        transform.position = InfoParty.InfoPlayer.position;
+        //_score = InfoParty.InfoPlayer.score
     }
 }
