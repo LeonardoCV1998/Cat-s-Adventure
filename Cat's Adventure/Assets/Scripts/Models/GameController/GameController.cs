@@ -4,10 +4,13 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 public class GameController : MonoBehaviour
 {
     private PlayerMovement _player;
+
+    public event Action ShowLifes;
 
     private void Awake()
     {
@@ -107,6 +110,12 @@ public class GameController : MonoBehaviour
             _player.SetHealth(dataContainer.health);
             //_player.SetPosition(dataContainer.position);
             //_player.SetScore(dataContainer.score);
+        }
+
+        if(ShowLifes != null)
+        {
+            ShowLifes();
+            
         }
     }
 }
