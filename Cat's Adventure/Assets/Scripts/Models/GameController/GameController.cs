@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// Variable para controlar si es nueva partida o no
     /// </summary>
-    public bool isNewParty = true;
+    public static bool isNewParty = true;
 
     private void Awake()
     {
