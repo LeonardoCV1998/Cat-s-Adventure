@@ -87,6 +87,11 @@ public class PlayerMovement : MonoBehaviour
     private GameController _gameController;
 
     /// <summary>
+    /// Componente de UIController
+    /// </summary>
+    private UIController _uiController;
+
+    /// <summary>
     /// Se realiza un evento el cual se llamara cuando se haga daño al Player
     /// </summary>
     public event Action DamageTaken;
@@ -106,6 +111,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Se busca y se obtiene el GameController
         _gameController = GameObject.Find("GameController").GetComponent<GameController>();
+
+        // Se busva y se obtiene el UIController
+        _uiController = GameObject.Find("GameController").GetComponent<UIController>();
 
         // Se obtienen los componente de PlayerController
         _playerController = GetComponent<PlayerController>();
@@ -183,6 +191,7 @@ public class PlayerMovement : MonoBehaviour
             if(_isDead)
             {
                 _isDead = false;
+                _damageable = true;
                 ReciveDamage(1);
             }
         }
@@ -337,7 +346,7 @@ public class PlayerMovement : MonoBehaviour
             // Si la vida es menor a 1 osea 0
             if (_health < 1)
             {
-                _gameController.LoadParty();
+                _gameController.GameOver();
             }
         }
     }
@@ -395,36 +404,65 @@ public class PlayerMovement : MonoBehaviour
         _runSpeed = value;
     }
 
+    /// <summary>
+    /// Metodo para obtener la vida
+    /// </summary>
+    /// <returns></returns>
     public int GetHealth()
     {
         return _health;
     }
 
+    /// <summary>
+    /// Metodo para obtener la posicion en X
+    /// </summary>
+    /// <returns></returns>
     public float GetPositionX()
     {
         return transform.position.x;
     }
+
+    /// <summary>
+    /// Metodo para obtener la posicion en Y
+    /// </summary>
+    /// <returns></returns>
     public float GetPositionY()
     {
         return transform.position.y;
     }
 
-
+    /// <summary>
+    /// Metodo para ajustar la vida
+    /// </summary>
+    /// <param name="health"></param>
     public void SetHealth(int health)
     {
         _health = health;
     }
 
+    /// <summary>
+    /// Metodo para ajustar la posicion
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     public void SetPosition(float x, float y)
     {
         transform.position = new Vector2(x, y);
     }
 
+    /// <summary>
+    /// Metodo para obtener los mouses
+    /// </summary>
+    /// <returns></returns>
     public int GetMouses()
     {
         return _mouses;
     }
 
+    /// <summary>
+    /// Metodo para ajustar los mouses
+    /// </summary>
+    /// <param name="value"></param>
     public void SetMouses(int value)
     {
         _mouses += value;

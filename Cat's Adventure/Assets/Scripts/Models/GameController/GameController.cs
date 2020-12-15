@@ -28,6 +28,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     [SerializeField] private GameObject _pauseText;
 
+    [SerializeField] private GameObject _gameOver;
+
+    [SerializeField] private GameObject _keyImages;
+
     private void Awake()
     {
         // Se obtiene los componente del objeto Player, PlayerMovement
@@ -44,6 +48,10 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        _keyImages.SetActive(true);
+
+        StartCoroutine(TimeToKeys());
+
         // Preguntar si es partida nueva
         if(isNewParty)
         {
@@ -183,6 +191,30 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene("UIDesign");
+    }
+
+    public void GameOver()
+    {
+        _gameOver.SetActive(true);
+        Time.timeScale = 0;
+
+
+    }
+
+    public void OnGameOverButtonDown()
+    {
+        Time.timeScale = 1;
+
+        _gameOver.SetActive(false);
+
+        LoadParty();
+    }
+
+    IEnumerator TimeToKeys()
+    {
+        yield return new WaitForSeconds(5f);
+
+        _keyImages.SetActive(false);
     }
 }
 
