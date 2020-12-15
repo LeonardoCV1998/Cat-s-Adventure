@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -79,6 +80,17 @@ public class PlayerMovement : MonoBehaviour
     /// Componente de GameController
     /// </summary>
     private GameController _gameController;
+
+    /// <summary>
+    /// Se realiza un evento el cual se llamara cuando se haga daño al Player
+    /// </summary>
+    public event Action DamageTaken;
+
+    /// <summary>
+    /// Se realiza un evento el cual se llamara cuando se aumente la vida del Player
+    /// </summary>
+    public event Action LifesUpgraded;
+
     private void Start()
     {
         // Se busca y se obtiene el GameController
@@ -288,6 +300,11 @@ public class PlayerMovement : MonoBehaviour
             // Se resta la vida dependiendo del daño a causar
             _health -= damage;
 
+            if(DamageTaken != null)
+            {
+                DamageTaken();
+            }
+
             // Se manda a llamar la animacion de Hurt
             _animator.SetTrigger(StringsType.IsHurtParameter);
 
@@ -337,6 +354,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // Se incrementa uno de vida
         _health++;
+
+        if (LifesUpgraded != null)
+        {
+            LifesUpgraded();
+        }
     }
 
     /// <summary>
