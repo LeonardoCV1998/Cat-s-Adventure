@@ -91,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public event Action LifesUpgraded;
 
+    private bool _isDead = false;
+
     private void Start()
     {
         // Se busca y se obtiene el GameController
@@ -162,7 +164,19 @@ public class PlayerMovement : MonoBehaviour
 
         #endregion
 
+        // Definimos la barrera del inicio para que no vaya hacia la izquierda
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -5.0f, Mathf.Infinity), transform.position.y);
+
+        if(transform.position.y <= -15.0f)
+        {
+            _isDead = true;
+
+            if(_isDead)
+            {
+                _isDead = false;
+                ReciveDamage(1);
+            }
+        }
 
     }
 
@@ -310,8 +324,9 @@ public class PlayerMovement : MonoBehaviour
             // Se manda a llamar la animacion de Hurt
             _animator.SetTrigger(StringsType.IsHurtParameter);
 
+            
             // Si la vida es menor a 1 osea 0
-            if(_health < 1)
+            if (_health < 1)
             {
                 _gameController.LoadParty();
             }
