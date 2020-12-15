@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// Vida del jugador, seran 3 vidas en total.
     /// </summary>
-    [SerializeField] private int _health = 3;
+    [SerializeField] private int _health;
 
     /// <summary>
     /// Punto de ataque en el que detectara a los enemigos
@@ -132,6 +132,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Se hace true ya que al iniciar podra recibir daño
         _damageable = true;
+
+
     }
 
     private void Update()
@@ -374,18 +376,23 @@ public class PlayerMovement : MonoBehaviour
         return _health;
     }
 
-    public Vector2 GetPosition()
+    public float GetPositionX()
     {
-        return transform.position;
+        return transform.position.x;
     }
+    public float GetPositionY()
+    {
+        return transform.position.y;
+    }
+
 
     public void SetHealth(int health)
     {
         _health = health;
     }
 
-    public void SetPosition(Vector2 position)
+    public void SetPosition(float x, float y)
     {
-        transform.position = position;
+        transform.position = new Vector2(x, y);
     }
 }
