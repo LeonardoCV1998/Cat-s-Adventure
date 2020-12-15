@@ -23,5 +23,6 @@ public static class StringsType
     public const string IsAttackingParameter = "IsAttacking";
     public const string IsHurtParameter = "IsHurt";
     public const string PlayerTag = "Player";
+    public const string FileStreamPath = "/dataContainer.dat";
     #endregion
 }

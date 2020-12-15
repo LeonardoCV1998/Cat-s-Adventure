@@ -45,6 +45,7 @@ public class BolaEstambre : MonoBehaviour
         // Si el tag con el que colisiono es el de Player
         if(collision.tag.Equals(StringsType.PlayerTag))
         {
+            Debug.Log("Entro");
             // Se obtiene el componente de PlayerMovement
             PlayerMovement playerMovement = collision.GetComponent<PlayerMovement>();
 
