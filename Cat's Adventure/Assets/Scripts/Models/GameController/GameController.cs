@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class GameController : MonoBehaviour
     /// Variable para controlar si es nueva partida o no
     /// </summary>
     public static bool isNewParty = true;
+
+    /// <summary>
+    /// Obj del texto de pausar
+    /// </summary>
+    [SerializeField] private GameObject _pauseText;
 
     private void Awake()
     {
@@ -68,34 +74,38 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            _pauseText.SetActive(true);
+            Time.timeScale = 0;
+        }
+        
+    }
+
+    /// <summary>
+    /// Metodo para continuar jugando
+    /// </summary>
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+        _pauseText.SetActive(false);
+    }
+
+    /// <summary>
+    /// Metodo para ir al menu principal
+    /// </summary>
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     /// <summary>
     /// Metodo para guardar la partida
     /// </summary>
     public void SaveParty()
     {
-        //// Limpiamos la lista para que no nos añada nuevos
-        //DataContainer.infoRecolectables.Clear();
-
-        //// Se busca el objeto que se llame recolectables de la scene
-        //Transform recolectables = GameObject.Find("Recolectables").transform;
-
-        //// Se pasa por cada uno de los obj
-        //foreach (Transform rec in recolectables)
-        //{
-        //    // Se obtiene la informacion de si estan activos o no
-        //    DataContainer.TypeInfoRecolectables itemRec = new DataContainer.TypeInfoRecolectables
-        //    {
-        //        isActive = rec.gameObject.activeSelf
-        //    };
-
-        //    // Se añade a la lista
-        //    DataContainer.infoRecolectables.Add(itemRec);
-        //}
-
-
-
-
-
         // Se crea una nueva instancia de BinaryFormatter
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
@@ -110,7 +120,7 @@ public class GameController : MonoBehaviour
         dataContainer.health = _player.GetHealth();
         dataContainer.posX = _player.GetPositionX();
         dataContainer.posY = _player.GetPositionY();
-        //dataContainer.score = _player.GetScore();
+        dataContainer.mouses = _player.GetMouses();
 
         // Se serailizan los datos
         binaryFormatter.Serialize(fileStream, dataContainer);
@@ -124,21 +134,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void LoadParty()
     {
-        ////Se busca el objeto que se llame recolectables de la scene
-        //Transform recolectables = GameObject.Find("Recolectables").transform;
-
-        //int i = 0;
-
-        //// Se pasa por cada uno de los obj
-        //foreach (Transform rec in recolectables)
-        //{
-        //    rec.gameObject.SetActive(DataContainer.infoRecolectables[i++].isActive);
-        //}
-
-
-
-
-
+        
         // Si existe el archivo 
         if (File.Exists(Application.persistentDataPath + StringsType.FileStreamPath))
         {
@@ -158,7 +154,7 @@ public class GameController : MonoBehaviour
             // Se ajustan las variables del Player a las que se guardaron
             _player.SetHealth(dataContainer.health);
             _player.SetPosition(dataContainer.posX, dataContainer.posY);
-            //_player.SetScore(dataContainer.score);
+            _player.SetMouses(dataContainer.mouses);
 
             // Se revisa que el delegado no sea null
             if (ShowLifes != null)
@@ -167,8 +163,26 @@ public class GameController : MonoBehaviour
                 ShowLifes();
 
             }
-        }
 
+            // Se obtine el componente de MouseUI del gameobject
+            MouseUI mouseUI = GameObject.FindGameObjectWithTag("MouseUI").GetComponent<MouseUI>();
+
+            // Se actualiza al cargar el texto de mouses
+            mouseUI.mouseText.text = dataContainer.mouses.ToString();
+        }
+    }
+
+    public void GameFinish()
+    {
+        
+        StartCoroutine(TimeToMainMenu());
+    }
+
+    private IEnumerator TimeToMainMenu()
+    {
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("UIDesign");
     }
 }
 
@@ -184,9 +198,9 @@ public class DataContainer
     public int health;
 
     /// <summary>
-    /// Score del jugador guardada
+    /// Mouses del jugador guardada
     /// </summary>
-    public int score;
+    public int mouses;
 
     /// <summary>
     ///  Posicion en X del jugador guardada

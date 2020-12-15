@@ -47,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Color _finalColor;
 
     /// <summary>
+    /// Variable donde se guardaran los ratones
+    /// </summary>
+    [SerializeField] private int _mouses;
+
+    /// <summary>
     /// Control de si puede recibir daño o no el Player
     /// </summary>
     private bool _damageable = false;
@@ -91,7 +96,11 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public event Action LifesUpgraded;
 
+    /// <summary>
+    /// Revisara si cae el jugador y muere
+    /// </summary>
     private bool _isDead = false;
+
 
     private void Start()
     {
@@ -409,5 +418,16 @@ public class PlayerMovement : MonoBehaviour
     public void SetPosition(float x, float y)
     {
         transform.position = new Vector2(x, y);
+    }
+
+    public int GetMouses()
+    {
+        return _mouses;
+    }
+
+    public void SetMouses(int value)
+    {
+        _mouses += value;
+
     }
 }
