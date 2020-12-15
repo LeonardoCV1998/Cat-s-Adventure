@@ -1,0 +1,60 @@
+Objetivos a realizar del proyecto
+
+1. Creacion del repositorio *
+
+2. Creacion del proyecto de Unity *
+
+3. Implementar en el repositorio el proyecto de Unity *
+
+4. Creacion de branch de Character Controller *
+
+5. Control basico del jugador
+   - Movimiento Izquierda y Derecha *
+   - Salto *
+   - Slide *
+   - Ataque *
+
+6. Animaciones del jugador (En otra branch)
+   - Movimiento Izquierda y Derecha *
+   - Salto * 
+   - Slide *
+   - Ataque *
+
+7. Controlar las colisiones del Slide cuando se hace
+   se tiene que desactivar la de la cabeza, esto utilizando
+   el PlayerControler.cs *
+
+8. Corregir los inputs, en ocasiones cuando se le pica a 
+   una tecla no lo reconoce, hay que solucionarlo *
+
+9. Control de enemigos:
+    - Spray *
+    - Perro *
+    - Coche 
+    - Cerca *
+
+10. Crear variable health a Player para poder hacer daño
+    al jugador. *
+
+11. Hacer animacion de Hurt del Player *
+
+12. Hacer daño con el ataque del Player *
+
+13. Hacer que los enemigos reciban daño del Player (Solo los que puedan recibir) *
+
+14. Hacer grafica la salud del Player *
+
+15. Hacer una nueva branch y trabajar ahi los diferentes
+    powerUps del jugador y recolectables, los cuales son:
+     - Sobresillo Gatuno *
+     - Bolas de estambre *
+
+16. Realizar los checkpoints del juego y ubicarlos dentro del nivel *
+
+17. Agregar monedas y score*
+
+17. Hacer los menus *
+
+18. Integrar la meta del juego *
+
+19. Cuando el jugador caiga reinicia en el ultimo checkpoint *
